@@ -3,8 +3,9 @@ Rails.application.routes.draw do
   to: 'fallback#index',
   constraints: ->(req) { !req.xhr? && req.format.html? }
   
-  resources :users, except: [:new, :edit]
+  resources :users, only: [:create, :show]
   resources :places, except: [:new, :edit]
+  resources :regions, except: [:new, :edit]
   
 
 end

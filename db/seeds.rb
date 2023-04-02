@@ -13,8 +13,8 @@ rA = Region.create!(city: 'Boulder', state: 'Colorado')
 rB = Region.create!(city: 'Washington', state: 'District of Columbia')
 rC = Region.create!(city: 'London', state: 'United Kingdom')
 
-aA = Activity.create!(type: 'Restaurants')
-aB = Activity.create!(type: 'Shopping')
+aA = Activity.create!(activity_type: 'Restaurants')
+aB = Activity.create!(activity_type: 'Shopping')
 
 pA = Place.create!(name: 'Arabesque', map_url: 'https://goo.gl/maps/zRkfdvTFnTpPfXc47', website_url: 'http://www.arabesqueboulder.com/index.php', notes: 'Amazing Middle Eastern food. Must order a chai and the bak lava!', user_id: uA.id, region_id: rA.id, activity_id: aA.id)
 pB = Place.create!(name: 'Absolute Noodle', map_url: 'https://goo.gl/maps/nPB8vE1GbXKBgDb46', website_url: 'https://www.absolutenoodlewashington.com/', notes: 'A great local sushi place. Great sushi with make-your-own soup options.', user_id: uA.id, region_id: rB.id, activity_id: aA.id)

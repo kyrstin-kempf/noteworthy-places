@@ -1,21 +1,20 @@
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import Home from "./pages/Home";
-// import Test from "./pages/Test";
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import NavBar from "./NavBar";
+import Home from "../pages/Home";
+import Test from "../pages/Test";
 // import Counter from "./features/Counter"
 
 function App() {
 
   return (
-    <h1>Home</h1>
-    // <BrowserRouter>
-    //   <div className="App">
-    //     <Routes>
-    //       <Route path="/testing" element={<Counter />}/>
-    //       <Route path="/" element={<Home />} />
-    //     </Routes>
-    //   </div>
-    // </BrowserRouter>
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/testing" element={<Test />}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

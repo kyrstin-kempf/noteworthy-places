@@ -1,3 +1,3 @@
 class Activity < ApplicationRecord
-    belongs_to :places
+    has_many :place
 end

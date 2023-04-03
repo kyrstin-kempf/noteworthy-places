@@ -1,38 +1,48 @@
-.App {
+body {
+  margin: 0;
+  padding: 0 80px;
+  font-family: "Lexend Deca","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+p, h1, h2, button {
+  font-family: "Lexend Deca","Helvetica Neue",Helvetica,Arial,sans-serif;
+  /* color: #8F23E4; */
+}
+
+div.nav-bar {
+  border-bottom: solid rgb(184, 184, 184) 1px;
+  padding: 20px 80px;
+  margin: 0 -80px;
   text-align: center;
+  font-size: 14px;
+  color: #8F23E4;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+div.nav-bar img {
+  width: 300px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+#new-place-button {
+  float: left;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding: 6px 10px;
+  text-decoration: none;
+  background-color: #8F23E4;
   color: white;
+  border-radius: 4px;
 }
 
-.App-link {
-  color: #61dafb;
+#new-place-button:hover {
+  background-color: #7116B6;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#nav-logout {
+  float: right;
+  padding: 10px 0;
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  color: #8F23E4;
+  cursor: pointer;
 }

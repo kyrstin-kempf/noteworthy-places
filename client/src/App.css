@@ -2,6 +2,8 @@ body {
   margin: 0;
   padding: 0 80px;
   font-family: "Lexend Deca","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 11px;
+  background-color: rgb(242, 242, 242);
 }
 
 p, h1, h2, button {
@@ -9,13 +11,16 @@ p, h1, h2, button {
   /* color: #8F23E4; */
 }
 
+/* ------------------------ NAVBAR */
+
 div.nav-bar {
-  border-bottom: solid rgb(184, 184, 184) 1px;
+  border-bottom: solid rgb(211, 211, 211) 1px;
   padding: 20px 80px;
   margin: 0 -80px;
   text-align: center;
   font-size: 14px;
   color: #8F23E4;
+  background-color: white;
 }
 
 div.nav-bar img {
@@ -45,4 +50,35 @@ div.nav-bar img {
   font-size: 14px;
   color: #8F23E4;
   cursor: pointer;
+}
+
+/* ---------------------------------- FORMS */
+
+.new-place-form {
+  padding: 30px 40px;
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  box-shadow: 2px 2px 6px rgb(202, 201, 201);
+  border-radius: 6px;
+  background-color: white;
+}
+
+.new-place-form input, textarea {
+  padding: 6px;
+  width: 100%;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 2px;
+  border: 1px solid rgb(196, 196, 196);
+  resize: none;
+  font-family: inherit;
+}
+
+.page-title {
+  color: #8F23E4;
+  margin: 0;
+  padding-bottom: 20px;
+  font-size: 18px;
 }

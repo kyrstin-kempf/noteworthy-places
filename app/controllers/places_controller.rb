@@ -1,51 +1,20 @@
 class PlacesController < ApplicationController
-  before_action :set_place, only: %i[ show update destroy ]
+  skip_before_action :authorize, only: [:index]
 
-  # GET /places
   def index
-    @places = Place.all
-
-    render json: @places
+    places = Place.all
+    render json: places
   end
 
-  # GET /places/:id
-  def show
-    render json: @place
-  end
-
-  # POST /places
-  def create
-    @place = Place.new(place_params)
-
-    if @place.save
-      render json: @place, status: :created, location: @place
-    else
-      render json: @place.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /places/:id
-  def update
-    if @place.update(place_params)
-      render json: @place
-    else
-      render json: @place.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /places/:id
-  def destroy
-    @place.destroy
+  def create 
+    place = Place.create!(place_params)
+    render json: place, status: :created
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_place
-      @place = Place.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def place_params
-      params.require(:place).permit(:name, :map_url, :website_url, :notes, :user_id, :region_id)
-    end
+  def place_params 
+    params.permit(:name, :map_url, :website_url, :notes, :user_id, :region_id, :activity_id)
+  end
+
 end

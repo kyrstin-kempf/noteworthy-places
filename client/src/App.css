@@ -16,7 +16,7 @@ p, h1, h2, button {
 div.nav-bar {
   border-bottom: solid rgb(211, 211, 211) 1px;
   padding: 20px 80px;
-  margin: 0 -80px;
+  margin: 0 -80px 30px -80px;
   text-align: center;
   font-size: 14px;
   color: #8F23E4;
@@ -59,13 +59,12 @@ div.nav-bar img {
   width: 350px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 30px;
   box-shadow: 2px 2px 6px rgb(202, 201, 201);
-  border-radius: 6px;
+  border-radius: 4px;
   background-color: white;
 }
 
-.new-place-form input, textarea {
+.new-place-form input, textarea, select {
   padding: 6px;
   width: 100%;
   margin: 8px 0;
@@ -81,4 +80,130 @@ div.nav-bar img {
   margin: 0;
   padding-bottom: 20px;
   font-size: 18px;
+}
+
+
+
+/* -------------------------------- HOME PAGE */
+
+#my-places-box {
+  /* float: left; */
+  /* width: 70%; */
+  margin-right: 230px;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 2px 2px 6px rgb(202, 201, 201);
+  border-radius: 4px;
+}
+
+.search-title {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
+  padding: 5px 0;
+}
+
+label.search-title {
+  padding: 5px 0;
+}
+
+form.search-filter-form {
+  top: 114px;
+  right: 80px;
+  position: absolute;
+  background-color: #9023e442;
+  padding: 15px;
+  width: 180px;
+  box-shadow: 2px 2px 6px rgb(202, 201, 201);
+  border-radius: 4px;
+}
+
+form.search-filter-form input {
+  padding: 4px;
+  width: 100%;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 2px;
+  border: 1px solid rgb(196, 196, 196);
+  resize: none;
+  font-family: inherit;
+}
+
+input#search {
+  outline: none;
+}
+input#search:focus {
+  border: solid 1px #8F23E4;
+}
+
+.filter-container-box {
+  background-color: white;
+  padding: 8px 8px 2px 8px;
+  border-radius: 2px;
+  margin-top: 4px;
+}
+
+.filter-container {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 3px;
+  font-size: 11px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+label.filter-container {
+  height: 18px;
+  padding-top: 3px;
+}
+
+.filter-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 16px;
+  width: 16px;
+  /* border: solid 1px rgb(196, 196, 196); */
+  /* border: solid 1px #8F23E4; */
+  background-color: white;
+  border: 1px solid rgb(196, 196, 196);
+  border-radius: 1px;
+}
+
+.filter-container:hover input ~ .checkmark {
+  background-color: rgb(236, 236, 236);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.filter-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.filter-container .checkmark:after {
+  left: 5px;
+  top: 0px;
+  width: 4px;
+  height: 10px;
+  border: solid #8F23E4;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }

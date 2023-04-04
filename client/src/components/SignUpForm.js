@@ -7,37 +7,37 @@ function SignUp({ onLogin }) {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
-    // const [errors, setErrors] = useState([]);
-    // const [isLoading, setIsLoading] = useState(false);
+    const [errors, setErrors] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
   
-    // function handleSubmit(e) {
-    //   e.preventDefault();
-    //   setIsLoading(true);
-    //   fetch("/signup", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       first_name: firstName,
-    //       last_name: lastName,
-    //       email,
-    //       password,
-    //       password_confirmation: passwordConfirmation,
-    //     }),
-    //   })
-    //     .then((r) => {
-    //       setIsLoading(false);
-    //       if (r.ok) {
-    //         r.json().then((user) => onLogin(user));
-    //       } else {
-    //         r.json().then((err) => setErrors(err.errors));
-    //       }
-    //     });
-    // }
+    function handleSubmit(e) {
+      e.preventDefault();
+      setIsLoading(true);
+      fetch("/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          password,
+          password_confirmation: passwordConfirmation,
+        }),
+      })
+        .then((r) => {
+          setIsLoading(false);
+          if (r.ok) {
+            r.json().then((user) => onLogin(user));
+          } else {
+            r.json().then((err) => setErrors(err.errors));
+          }
+        });
+    }
   
     return (
-      <form className='login-form'>
+      <form className='login-form' onSubmit={handleSubmit}>
         <img className='logo-landing' src={logo} alt='Noteworth Places logo'/>
         <label htmlFor="first name">First Name</label>
         <input
@@ -75,14 +75,13 @@ function SignUp({ onLogin }) {
           onChange={(e) => setPasswordConfirmation(e.target.value)}
         />
         <button type="submit" className='submit-button-landing'>
-          {/* {isLoading ? "Loading..." : "Submit"} */}
-          Sign Up
+          {isLoading ? "Loading..." : "Create Account"}
         </button>
-        {/* <div className='login-error'>
+        <div className='login-error'>
           {errors?.map((err) => (
             <p key={err}>{err}</p>
           ))}
-        </div> */}
+        </div>
       </form>
     );
   }

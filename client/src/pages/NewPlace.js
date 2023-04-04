@@ -14,22 +14,14 @@ function NewPlace() {
                 // value={name}
                 // onChange={(e) => setName(e.target.value)}
                 />
-                <label htmlFor="city">City</label>
-                <input
-                type="text"
-                id="city"
-                placeholder="Berlin"
-                // value={city}
-                // onChange={(e) => setCity(e.target.value)}
-                />
-                <label htmlFor="state">State/Country</label>
-                <input
-                type="text"
-                id="state"
-                placeholder="Germany"
-                // value={state} 
-                // onChange={(e) => setState(e.target.value)}
-                />
+                <label htmlFor="region">City, State/Country</label>
+                <select id="region" name="region" placeholder="Berlin, Germany">
+                    <option value="empty"></option>
+                    <option value="Berlin, Germany">Berlin, Germany</option>
+                    <option value="Boulder, CO">Boulder, CO</option>
+                    <option value="Washington, DC">Washington, DC</option>
+                    <option value="add_region" id="new-location-option">+ Add New Location</option>
+                </select>
                 <label htmlFor="website_url">Website URL</label>
                 <input
                 type="url"

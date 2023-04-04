@@ -14,7 +14,7 @@ if (!user) return <Login onLogin={setUser} />;
 
   return (
     <BrowserRouter>
-      <NavBar />
+      <NavBar setUser={setUser} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/places/:id" element={<OnePlace />} />

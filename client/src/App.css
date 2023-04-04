@@ -240,7 +240,7 @@ label.filter-container {
 
 .login-form input:focus {
   outline: none;
-  border: solid 1px #8F23E4;
+  border: solid 1px;
 }
 
 .switch-login {

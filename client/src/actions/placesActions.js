@@ -20,7 +20,7 @@ export function fetchPlaces() {
         dispatch(getPlaces())
 
         try {
-            const response = await fetch('places')
+            const response = await fetch('/places')
             const data = await response.json()
 
             dispatch(getPlacesSuccess(data))

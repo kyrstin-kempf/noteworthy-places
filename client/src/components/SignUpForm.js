@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import logo from '../assets/Logo.png'
 
+// import {} from '../redux/userReducer'
+
+
 function SignUp({ onLogin }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -10,6 +13,33 @@ function SignUp({ onLogin }) {
     const [errors, setErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
   
+    // function handleSubmit(e) {
+    //   e.preventDefault();
+    //   dispatch({ type: "user/loginLoading", paylo})
+    //   setIsLoading(true);
+    //   fetch("/signup", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       first_name: firstName,
+    //       last_name: lastName,
+    //       email,
+    //       password,
+    //       password_confirmation: passwordConfirmation,
+    //     }),
+    //   })
+    //     .then((r) => {
+    //       setIsLoading(false);
+    //       if (r.ok) {
+    //         r.json().then((user) => onLogin(user));
+    //       } else {
+    //         r.json().then((err) => setErrors(err.errors));
+    //       }
+    //     });
+    // }
+
     function handleSubmit(e) {
       e.preventDefault();
       setIsLoading(true);

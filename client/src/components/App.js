@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import Login from "./components/Login";
-import NavBar from "./components/NavBar";
-import Home from "./components/Home";
+import Login from "./Login";
+import NavBar from "./NavBar";
+import Home from "./Home";
+import OnePlace from "./OnePlace"
 // import UpdatePlace from "./components/UpdatePlace";
-import NewPlace from "./components/NewPlace";
+import NewPlace from "./NewPlace";
 
-import { fetchPlaces } from "./redux/placesReducer";
+import { fetchPlaces } from "../redux/placesReducer";
 // import { fetchUser } from "./redux/userReducer"
 
 function App() {
@@ -63,7 +64,7 @@ if (!user) return <Login onLogin={setUser}/>;
       <NavBar setUser={setUser}/>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/places/:id" element={<OnePlace />} /> */}
+        <Route path="/places/:id" element={<OnePlace />} />
         {/* <Route path="/places/:id/edit" element={<UpdatePlace />}/> */}
         <Route path="/places/new" element={<NewPlace />}/>
       </Routes>

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-// import { useDispatch } from "react-redux";
+// import { useSelector } from "react-redux";
+// import { userSelector } from "../redux/usersSlice";
 import { useNavigate } from 'react-router-dom';
 
 function NewPlace() {
     const [name, setName] = useState("");
-    const [city, setCity] = useState("");
-    const [stateCountry, setStateCountry] = useState("");
+    // const [city, setCity] = useState("");
+    // const [stateCountry, setStateCountry] = useState("");
     const [websiteUrl, setWebsiteUrl] = useState("");
     const [mapUrl, setMapUrl] = useState("");
     const [activityType, setActivityType] = useState("");
@@ -13,6 +14,25 @@ function NewPlace() {
     const [errors, setErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    // const { user } = useSelector(userSelector)
+
+    // const regionOptions = user.map(r => console.log(r))
+
+    // function activityID(act) {
+    //     if(act === "Restaurants") {
+    //         return 1
+    //     } else if (act === "Shopping") {
+    //         return 2
+    //     } else if (act === "Cafes / Bites") {
+    //         return 3
+    //     } else if (act === "Site Seeing") {
+    //         return 4
+    //     } else if (act === "Entertainment / Arts") {
+    //         return 5
+    //     } else if (act === "Outdoor Recreation") {
+    //         return 6
+    //     }
+    // } 
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -56,29 +76,11 @@ function NewPlace() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 />
-                <label htmlFor="city">City</label>
-                <input
-                type="text"
-                id="city"
-                placeholder="Berlin"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                />
-                <label htmlFor="city">State / Country</label>
-                <input
-                type="text"
-                id="state"
-                placeholder="Germany"
-                value={stateCountry}
-                onChange={(e) => setStateCountry(e.target.value)}
-                />
-                {/* <select id="region" name="region" placeholder="Berlin, Germany">
-                    <option value="empty"></option>
-                    <option value="Berlin, Germany">Berlin, Germany</option>
-                    <option value="Boulder, CO">Boulder, CO</option>
-                    <option value="Washington, DC">Washington, DC</option>
-                    <option value="add_region" id="new-location-option">+ Add New Location</option>
-                </select> */}
+                <label htmlFor="city">City, State / Country</label>
+                
+                <button>+ Add New Location</button>
+                <br></br>
+                <br></br>
                 <label htmlFor="website_url">Website URL</label>
                 <input
                 type="text"
@@ -96,13 +98,18 @@ function NewPlace() {
                 onChange={(e) => setMapUrl(e.target.value)}
                 />
                 <label htmlFor="acitivity_type">Acitivity Type</label>
-                <input
-                type="text"
+                <select 
+                value={activityType} 
+                onChange={e => setActivityType(e.target.value)}
                 id="activity_type"
-                placeholder="Restaurants"
-                value={activityType}
-                onChange={(e) => setActivityType(e.target.value)}
-                />
+                >
+                    <option>Restaurants</option>
+                    <option>Shopping</option>
+                    <option>Cafés / Bites </option>
+                    <option>Site Seeing</option>
+                    <option>Entertainment / Arts</option>
+                    <option>Outdoor Recreation</option>
+                </select>
                 <label htmlFor="notes">Notes</label>
                 <textarea
                 type="text"

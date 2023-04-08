@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
   get '/places', to: 'places#index'
   post '/places', to: 'places#create'
+  get '/places/:id', to: 'places#show'
+  delete '/places/:id', to: 'places#destroy'
 
   # resources :regions, except: [:new, :edit]
 

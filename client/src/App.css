@@ -255,3 +255,16 @@ label.filter-container {
   margin-right: auto;
   border-top: 1px solid rgb(220, 220, 220);
 }
+
+#details-button {
+  background-color: transparent;
+  color: #8F23E4;
+  font-size: 11px;
+  border: 1px solid #8F23E4;
+  border-radius: 2px;
+  margin-left: 10px;
+}
+
+#details-button:hover {
+  background-color: #9023e442;
+}

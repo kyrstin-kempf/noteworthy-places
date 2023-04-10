@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   # resources :regions, except: [:new, :edit]
 
   get '/regions', to: 'regions#index'
+  post '/regions', to: 'regions#create'
 
   # resources :activities, only: [:create]
 

@@ -1,38 +1,39 @@
-import React, { useState } from "react";
-// import { useSelector } from "react-redux";
-// import { userSelector } from "../redux/usersSlice";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { NewLocation } from "./NewLocation";
+import { useDispatch, useSelector } from "react-redux";
 
 function NewPlace() {
+    const { user }  = useSelector(state => state.user)
     const [name, setName] = useState("");
-    // const [city, setCity] = useState("");
-    // const [stateCountry, setStateCountry] = useState("");
     const [websiteUrl, setWebsiteUrl] = useState("");
     const [mapUrl, setMapUrl] = useState("");
+    const [cityState, setCityState] = useState("");
     const [activityType, setActivityType] = useState("");
     const [notes, setNotes] = useState("");
+    
+    const [showAddLocation, setShowAddLocation] = useState(false)
+    const [locations, setLocations] = useState([])
     const [errors, setErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-    // const { user } = useSelector(userSelector)
+    const dispatch = useDispatch();
 
-    // const regionOptions = user.map(r => console.log(r))
-
-    // function activityID(act) {
-    //     if(act === "Restaurants") {
-    //         return 1
-    //     } else if (act === "Shopping") {
-    //         return 2
-    //     } else if (act === "Cafes / Bites") {
-    //         return 3
-    //     } else if (act === "Site Seeing") {
-    //         return 4
-    //     } else if (act === "Entertainment / Arts") {
-    //         return 5
-    //     } else if (act === "Outdoor Recreation") {
-    //         return 6
-    //     }
-    // } 
+    useEffect(() => {
+        fetch("/regions", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            }
+          })
+            .then((r) => {
+                if (r.ok) {
+                    r.json().then((locations) => {
+                        setLocations(locations)
+                    });
+                }
+            });
+    }, [])
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -47,21 +48,47 @@ function NewPlace() {
                 map_url: mapUrl,
                 website_url: websiteUrl,
                 notes,
-                user_id: 13,
-                region_id: 2,
-                activity_id: 3,
+                user_id: user.id,
+                region_id: cityState,
+                activity_id: activityType,
             }),
         })
         .then((r) => {
             setIsLoading(false);
             if (r.ok) {
-                r.json()
+                // r.json()
+                r.json().then((place) => {
+                    dispatch({ type: "places/addNewPlace", payload: place })
+                })
                 navigate('/')
             }
             else {
                 r.json().then((err) => setErrors(err.errors));
             }
         })
+    }
+
+    const onAddNewLocation = () => {
+        setShowAddLocation(!showAddLocation)
+    }
+
+    const afterAddNewLocation = (newLocation) => {
+        setLocations([...locations, newLocation])
+        setCityState(newLocation.id)
+        setShowAddLocation(false)
+    }
+
+    const getLocationOptions = () => {
+        const options = [
+            <option key='blank' value={''}>Select a location</option>
+        ]
+        locations.forEach(location => options.push(<option key={location.id} value={location.id}>{`${location.city}, ${location.state}`}</option>))
+        return options
+    }
+
+    const onCityStateSelect = (e) => {
+        const val = e.target.value;
+        if (val) setCityState(val)
     }
 
     return (
@@ -77,8 +104,15 @@ function NewPlace() {
                 onChange={(e) => setName(e.target.value)}
                 />
                 <label htmlFor="city">City, State / Country</label>
-                
-                <button>+ Add New Location</button>
+                <select 
+                value={cityState} 
+                onChange={onCityStateSelect}
+                id="activity_type"
+                >
+                    {getLocationOptions()}
+                </select>
+                <button onClick={onAddNewLocation} type="button">+ Add New Location</button>
+                {showAddLocation && <NewLocation afterAddNewLocation={afterAddNewLocation} />}
                 <br></br>
                 <br></br>
                 <label htmlFor="website_url">Website URL</label>
@@ -103,12 +137,13 @@ function NewPlace() {
                 onChange={e => setActivityType(e.target.value)}
                 id="activity_type"
                 >
-                    <option>Restaurants</option>
-                    <option>Shopping</option>
-                    <option>Cafés / Bites </option>
-                    <option>Site Seeing</option>
-                    <option>Entertainment / Arts</option>
-                    <option>Outdoor Recreation</option>
+                    <option value={''}>Select an activity</option>
+                    <option value={1}>Restaurants</option>
+                    <option value={2}>Shopping</option>
+                    <option value={3}>Cafés / Bites </option>
+                    <option value={4}>Site Seeing</option>
+                    <option value={5}>Entertainment / Arts</option>
+                    <option value={6}>Outdoor Recreation</option>
                 </select>
                 <label htmlFor="notes">Notes</label>
                 <textarea

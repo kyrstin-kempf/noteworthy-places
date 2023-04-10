@@ -1,18 +1,18 @@
 const initialState = {
-    regions: [],
+    places: [],
     loading: false,
 }
 
 export function fetchPlaces() {
     return function (dispatch) {
-      dispatch({ type: "data/dataLoading" });
+      dispatch({ type: "places/placesLoading" });
       fetch("/places")
         .then((response) => response.json())
-        .then((data) =>   {
+        .then((places) => {
             // console.log('data', data)
             dispatch({
-                type: "data/dataLoaded",
-                payload: data,
+                type: "places/placesLoaded",
+                payload: places,
             })
             }
         );
@@ -21,10 +21,13 @@ export function fetchPlaces() {
 
 function placesReducer(state = initialState, action) {
     switch (action.type) {
-        case "data/dataLoading":
+        case "places/placesLoading":
             return { ...state, loading: true }
-        case "data/dataLoaded":
-            return { regions: action.payload, loading: false };
+        case "places/placesLoaded":
+            return { places: action.payload, loading: false };
+        case "places/addNewPlace":
+            return { ...state, places: [...state.places, action.payload], loading: false };
+            // return { ...state, isLoggedIn: !!payload, user: payload, loading: false };
         default:
             return state;
     }

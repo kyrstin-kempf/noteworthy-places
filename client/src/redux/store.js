@@ -6,7 +6,7 @@ import placesReducer from './placesReducer'
 const store = configureStore({
     reducer: {
 		user: userReducer,
-		data: placesReducer,
+		places: placesReducer,
 	},
 });
 

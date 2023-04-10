@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import logo from '../assets/Logo.png'
 
-// import {} from '../redux/userReducer'
 
-
-function SignUp({ onLogin }) {
+function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [firstName, setFirstName] = useState("");
@@ -12,34 +11,8 @@ function SignUp({ onLogin }) {
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [errors, setErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch()
   
-    // function handleSubmit(e) {
-    //   e.preventDefault();
-    //   dispatch({ type: "user/loginLoading", paylo})
-    //   setIsLoading(true);
-    //   fetch("/signup", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       first_name: firstName,
-    //       last_name: lastName,
-    //       email,
-    //       password,
-    //       password_confirmation: passwordConfirmation,
-    //     }),
-    //   })
-    //     .then((r) => {
-    //       setIsLoading(false);
-    //       if (r.ok) {
-    //         r.json().then((user) => onLogin(user));
-    //       } else {
-    //         r.json().then((err) => setErrors(err.errors));
-    //       }
-    //     });
-    // }
-
     function handleSubmit(e) {
       e.preventDefault();
       setIsLoading(true);
@@ -59,7 +32,9 @@ function SignUp({ onLogin }) {
         .then((r) => {
           setIsLoading(false);
           if (r.ok) {
-            r.json().then((user) => onLogin(user));
+            r.json().then((user) => {
+              dispatch({ type: "user/userLoaded", payload: user })
+            });
           } else {
             r.json().then((err) => setErrors(err.errors));
           }

@@ -35,7 +35,7 @@ div.nav-bar img {
   text-decoration: none;
   background-color: #8F23E4;
   color: white;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
 #new-place-button:hover {
@@ -87,13 +87,20 @@ div.nav-bar img {
 /* -------------------------------- HOME PAGE */
 
 #my-places-box {
-  /* float: left; */
-  /* width: 70%; */
   margin-right: 230px;
   background-color: white;
   padding: 20px;
   box-shadow: 2px 2px 6px rgb(202, 201, 201);
-  border-radius: 4px;
+  border-radius: 2px;
+}
+
+#one-place-box {
+  text-align: center;
+  width: 300px;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 2px 2px 6px rgb(202, 201, 201);
+  border-radius: 2px;
 }
 
 .search-title {
@@ -267,4 +274,48 @@ label.filter-container {
 
 #details-button:hover {
   background-color: #9023e442;
+}
+
+.one-place-button {
+  display: inline-block;
+  width: 100px;
+  padding: 6px 0px;
+  text-align: center;
+  text-decoration: none;
+  color: #8F23E4;
+  border-radius: 2px;
+  border: 1px solid #8F23E4;
+}
+
+.one-place-button:hover  {
+  background-color: #9023e442;
+}
+
+#edit-place-button {
+  align-self: flex-end;
+  bottom: 40px;
+  left: 80px;
+  background-color: white;
+  color: #8F23E4;
+  font-size: 11px;
+  /* font-weight: 500; */
+  border: 1px solid #8F23E4;
+  border-radius: 2px;
+  padding: 6px 10px;
+  margin-top: 40px;
+}
+/* 
+#one-place-container {
+  outline: 2px solid red;
+  margin: 0 80px;
+  height: 1000px;
+  padding: 10px;
+} */
+
+#website-button {
+  margin-right: 12px;
+}
+
+#map-button {
+  margin-left: 12px;
 }

@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import logo from '../assets/Logo.png'
 
-// import { useDispatch } from "react-redux";
-// import { } from '../redux/userReducer'
-
-
-function Login({ onLogin }) {
+function Login() {
+  const dispatch = useDispatch()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
     const [errors, setErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    // const dispatch = useDispatch();
   
     function handleSubmit(e) {
       e.preventDefault();
@@ -26,34 +22,14 @@ function Login({ onLogin }) {
         .then((r) => {
           setIsLoading(false);
           if (r.ok) {
-            // localStorage.setItem("user", JSON.stringify(user))
-            r.json().then((user) => onLogin(user));
+            r.json().then((user) => {
+              dispatch({ type: "user/userLoaded", payload: user })
+            });
           } else {
             r.json().then((err) => setErrors(err.errors));
           }
         });
     }
-
-  //   function handleSubmit(e) {
-  //   e.preventDefault();
-  //   setIsLoading(true);
-  //   fetch("/login", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ email, password }),
-  //   })
-  //     .then((r) => {
-  //       setIsLoading(false);
-  //       if (r.ok) {
-  //       //   r.json().then((user) => onLogin(user));
-  //         r.json().then((user) => dispatch({ type: 'user/loggedIn', payload: user}));
-  //       } else {
-  //         r.json().then((err) => setErrors(err.errors));
-  //       }
-  //     });
-  // }
   
     return (
       <form className='login-form' onSubmit={handleSubmit}>

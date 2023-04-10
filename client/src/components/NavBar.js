@@ -1,15 +1,19 @@
 import React from "react";
-import { NavLink } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { NavLink, useNavigate } from 'react-router-dom';
 import Logo from '../assets/Logo.png';
 
-function NavBar( {setUser} ) {
+function NavBar() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     function handleLogout() {
         fetch('/logout', {
             method: 'DELETE',
         }).then((r) => {
             if (r.ok) {
-                setUser(null);
+                dispatch({ type: "user/userLoggedOut" })
+                navigate('/')
             }
         });
     }

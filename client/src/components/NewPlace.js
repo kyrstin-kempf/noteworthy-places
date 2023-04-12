@@ -1,10 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { NewLocation } from "./NewLocation";
+import { NewActivity } from "./NewActivity";
 import { useDispatch, useSelector } from "react-redux";
 
-function NewPlace() {
+function NewPlace({}) {
     const { user }  = useSelector(state => state.user)
+    const regions = useSelector(state => state.regions.regions)
+    const activities = useSelector(state => state.activities.activities)
+
+    const [errors, setErrors] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    
     const [name, setName] = useState("");
     const [websiteUrl, setWebsiteUrl] = useState("");
     const [mapUrl, setMapUrl] = useState("");
@@ -13,27 +22,12 @@ function NewPlace() {
     const [notes, setNotes] = useState("");
     
     const [showAddLocation, setShowAddLocation] = useState(false)
-    const [locations, setLocations] = useState([])
-    const [errors, setErrors] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        fetch("/regions", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            }
-          })
-            .then((r) => {
-                if (r.ok) {
-                    r.json().then((locations) => {
-                        setLocations(locations)
-                    });
-                }
-            });
-    }, [])
+    const [showAddActivity, setShowAddActivity] = useState(false)
+    
+    /*useEffect(() => {
+        console.log('in effect')
+        setLocations(regions)
+    }, [regions])*/
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -56,7 +50,6 @@ function NewPlace() {
         .then((r) => {
             setIsLoading(false);
             if (r.ok) {
-                // r.json()
                 r.json().then((place) => {
                     dispatch({ type: "places/addNewPlace", payload: place })
                 })
@@ -68,12 +61,13 @@ function NewPlace() {
         })
     }
 
+    // --------------------------------------------- LOCATION
     const onAddNewLocation = () => {
         setShowAddLocation(!showAddLocation)
     }
 
     const afterAddNewLocation = (newLocation) => {
-        setLocations([...locations, newLocation])
+        dispatch({ type: "regions/addRegion", payload: newLocation })
         setCityState(newLocation.id)
         setShowAddLocation(false)
     }
@@ -82,7 +76,7 @@ function NewPlace() {
         const options = [
             <option key='blank' value={''}>Select a location</option>
         ]
-        locations.forEach(location => options.push(<option key={location.id} value={location.id}>{`${location.city}, ${location.state}`}</option>))
+        regions.forEach(location => options.push(<option key={location.id} value={location.id}>{`${location.city}, ${location.state}`}</option>))
         return options
     }
 
@@ -91,10 +85,35 @@ function NewPlace() {
         if (val) setCityState(val)
     }
 
+    // --------------------------------------------- ACTIVITY
+    const onAddNewActivity = () => {
+        setShowAddActivity(!setShowAddActivity)
+    }
+
+    const afterAddNewActivity = (newActivity) => {
+        dispatch({ type: "activities/addActivity", payload: newActivity })
+        setActivityType(newActivity.id)
+        setShowAddActivity(false)
+    }
+
+    const getActivityOptions = () => {
+        const options = [
+            <option key='blank' value={''}>Select an activity</option>
+        ]
+        activities.forEach(act => options.push(<option key={act.id} value={act.id}>{`${act.city}, ${act.state}`}</option>))
+        return options
+    }
+
+    const onActivitySelect = (e) => {
+        const val = e.target.value;
+        if (val) setActivityType(val)
+    }
+
     return (
         <div>
             <form className='new-place-form' onSubmit={handleSubmit}>
             <h1 className="page-title">New Place</h1>
+
                 <label htmlFor="name">Name</label>
                 <input
                 type="text"
@@ -103,18 +122,24 @@ function NewPlace() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 />
-                <label htmlFor="city">City, State / Country</label>
-                <select 
-                value={cityState} 
-                onChange={onCityStateSelect}
-                id="activity_type"
-                >
-                    {getLocationOptions()}
-                </select>
-                <button onClick={onAddNewLocation} type="button">+ Add New Location</button>
+
+                <div className="row">
+                    <div className="col-75">
+                        <label htmlFor="city">City, State / Country</label>
+                        <select 
+                        value={cityState} 
+                        onChange={onCityStateSelect}
+                        id="city"
+                        >
+                            {getLocationOptions()}
+                        </select>
+                    </div>
+                    <div className="col-25">
+                        <button onClick={onAddNewLocation} type="button" className="add-location-button">Add Location</button>
+                    </div>
+                </div>
                 {showAddLocation && <NewLocation afterAddNewLocation={afterAddNewLocation} />}
-                <br></br>
-                <br></br>
+                
                 <label htmlFor="website_url">Website URL</label>
                 <input
                 type="text"
@@ -123,6 +148,7 @@ function NewPlace() {
                 value={websiteUrl}
                 onChange={(e) => setWebsiteUrl(e.target.value)}
                 />
+
                 <label htmlFor="map_url">Map URL</label>
                 <input
                 type="text"
@@ -131,7 +157,25 @@ function NewPlace() {
                 value={mapUrl}
                 onChange={(e) => setMapUrl(e.target.value)}
                 />
-                <label htmlFor="acitivity_type">Acitivity Type</label>
+
+                <div className="row">
+                    <div className="col-75">
+                        <label htmlFor="acitivity_type">Activity Type</label>
+                        <select 
+                        value={activityType} 
+                        onChange={onActivitySelect}
+                        id="activity_type"
+                        >
+                            {getActivityOptions()}
+                        </select>
+                    </div>
+                    <div className="col-25">
+                        <button onClick={onAddNewActivity} type="button" className="add-location-button">Add Activity</button>
+                    </div>
+                </div>
+                {showAddActivity && <NewActivity afterAddNewActivity={afterAddNewActivity} />}
+
+                {/* <label htmlFor="acitivity_type">Acitivity Type</label>
                 <select 
                 value={activityType} 
                 onChange={e => setActivityType(e.target.value)}
@@ -144,7 +188,8 @@ function NewPlace() {
                     <option value={4}>Site Seeing</option>
                     <option value={5}>Entertainment / Arts</option>
                     <option value={6}>Outdoor Recreation</option>
-                </select>
+                </select> */}
+
                 <label htmlFor="notes">Notes</label>
                 <textarea
                 type="text"
@@ -155,14 +200,17 @@ function NewPlace() {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 />
+
                 <button type="submit" className="submit-button">
-                    {isLoading ? 'Loading...' : 'Add Place'}
+                    {isLoading ? 'Loading...' : '+ Add Place'}
                 </button>
+
                 <div className='login-error'>
                     {errors?.map((err) => (
                         <p key={err}>{err}</p>
                     ))}
                 </div>
+
             </form>
         </div>
     );

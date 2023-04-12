@@ -27,18 +27,6 @@ function SearchBox() {
     dispatch({ type: "places/clearFilter" })
   }
 
-  // const testSearch = 'Lo'
-  // // console.log(testSearch)
-  // const allCities = regions.map(r => (r.city.toLowerCase()))
-  // const searchTest = allCities.filter((c => {
-  //   if (testSearch === ''){
-  //     return c
-  //   } else {
-  //     return c.includes(testSearch)
-  //   }
-  // }))
-  // console.log(searchTest)
-
     return (
         <div className="search-filter-form">
 

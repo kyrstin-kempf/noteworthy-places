@@ -11,16 +11,11 @@ function OnePlace() {
   const places = useSelector(state => state.places.places)
   const activities = useSelector(state => state.activities.activities)
   const { id } = useParams();
-  // const [isShown, setIsShown] = useState(false);
   const navigate = useNavigate()
   const dispatch = useDispatch();
 
   const thisPlace = places.find(p => JSON.stringify(p.id) === id )
   const thisRegion = regions.find(r => r.id === thisPlace.region_id)
-
-//   const handleClick = () => {
-//     setIsShown(!isShown)
-// };
 
   const handleDelete = () => {
     fetch(`/places/${id}`, {
@@ -56,22 +51,8 @@ function OnePlace() {
               <Link to={`/places/${id}/edit`}>
                 <button type='button' id='edit-place-button'>Edit Place</button>
               </Link>
-              {/* <button type='button' id='edit-place-button' onClick={handleClick}>Edit Place</button> */}
               <button type='button' id='delete-place-button' onClick={handleDelete}>Delete Place</button>
             </div>
-
-            {/* <div id='update-box'>
-              { isShown && <UpdatePlace 
-              id={id}
-              name={thisPlace.name}
-              city={thisPlace.city}
-              state={thisPlace.state}
-              websiteUrl={thisPlace.website_url}
-              mapUrl={thisPlace.map_url}
-              activity={thisPlace.activity_id}
-              notes={thisPlace.notes}
-              /> }
-            </div> */}
 
           </div>
         ): (

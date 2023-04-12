@@ -1,8 +1,7 @@
 const initialState = {
+    reservedRegions: [],
     regions: [],
-    allRegions: [],
     loading: false,
-    // another
 }
 
 export function fetchRegions() {
@@ -26,28 +25,29 @@ function regionsReducer(state = initialState, action) {
         case "regions/regionsLoading":
             return { ...state, loading: true }
         case "regions/regionsLoaded":
-            return { regions: action.payload, loading: false };
+            return { reservedRegions: action.payload, regions: action.payload, loading: false };
         case "regions/deleteRegion":
-            return { regions: action.payload, loading: false };
+            return { reservedRegions: action.payload, regions: action.payload, loading: false };
         case "regions/addRegion":
-            return { ...state, regions: [...state.regions, action.payload] };
+            return { ...state, reservedRegions: [...state.reservedRegions, action.payload] , regions: [...state.regions, action.payload] };
         case "regions/searchByCity":
-            // conditional payload = ''
             let searchedValue = action.payload;
-            // determine if needs to be filtered -- if action.payload is '', state.regions, else, filter
-            let filteredCities = state.regions.filter(r => {
-                return r.city.toLowerCase().includes(searchedValue)
-            });
-            return {
-                ...state,
-                // only touching "untouched" array of regions
-                filteredCities: filteredCities
+            if (searchedValue === '') {
+                return { ...state, regions: state.reservedRegions }
+            } else {
+                    let filteredCities = state.regions.filter(r => {
+                    return r.city.toLowerCase().includes(searchedValue)
+                });
+                return { ...state, regions: filteredCities }
             }
-            // return {
-            //     ...state,
-            //     // only touching "untouched" array of regions
-            //     regions: regions
-            // }
+
+            // // conditional payload = ''
+            // let searchedValue = action.payload;
+            // // determine if needs to be filtered -- if action.payload is '', state.regions, else, filter
+            // let filteredCities = state.regions.filter(r => {
+            //     return r.city.toLowerCase().includes(searchedValue)
+            // });
+
         default:
             return state;
     }

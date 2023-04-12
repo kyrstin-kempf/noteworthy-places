@@ -25,11 +25,12 @@ export const NewLocation = ({ afterAddNewLocation }) => {
     }
 
     return (
-        <div>
-            <div>NewLocation</div>
-            <input type='text' value={city} name="city" onChange={(e) => setCity(e.target.value)} />
-            <input type='text' value={state} name="state" onChange={(e) => setState(e.target.value)} />
-            <button onClick={onSaveLocation} type='button' disabled={saving}>Save location</button>
+        <div id='new-location-box'>
+            <label htmlFor="city">New City</label>
+            <input type='text' value={city} name="city" onChange={(e) => setCity(e.target.value.replace(/\b(\w)/g, k => k.toUpperCase()))} />
+            <label htmlFor="city">New State / Country</label>
+            <input type='text' value={state} name="state" onChange={(e) => setState(e.target.value.replace(/\b(\w)/g, k => k.toUpperCase()))} />
+            <button onClick={onSaveLocation} type='button' disabled={saving} id='save-location-button'>Save</button>
         </div>
     )
 }

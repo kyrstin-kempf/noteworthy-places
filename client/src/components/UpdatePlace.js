@@ -1,35 +1,45 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from 'react-redux'
+import { NewLocation } from "./NewLocation";
+import { NewActivity } from "./NewActivity";
+import { useDispatch, useSelector } from "react-redux";
+
 import { useParams} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import { NewLocation } from "./NewLocation";
 
 function UpdatePlace() {
-    const places = useSelector(state => state.places.places)
-    const regions = useSelector(state => state.regions.regions)
     const { user }  = useSelector(state => state.user)
     const { id } = useParams();
-    const dispatch = useDispatch();
+    const regions = useSelector(state => state.regions.regions)
+    const activities = useSelector(state => state.activities.activities)
+    const places = useSelector(state => state.places.places)
+
     const [errors, setErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
+    
+// -------------------------------- EXISTING FORM VALUES
     const currentP = places.find(p => JSON.stringify(p.id) === id)
+    const currentLo = regions.find(r => r.id === currentP.region_id)
+    const currentLoId = currentLo.id 
+    const currentAc = activities.find(a => a.id === currentP.activity_id)
+    const currentAcId = currentAc.id
 
     const [name, setName] = useState(currentP.name);
-    const [cityState, setCityState] = useState("");
-    const [showAddLocation, setShowAddLocation] = useState(false)
+    const [cityState, setCityState] = useState(currentLoId);
     const [websiteUrl, setWebsiteUrl] = useState(currentP.website_url);
     const [mapUrl, setMapUrl] = useState(currentP.map_url);
-    const [activityType, setActivityType] = useState("");
+    const [activityType, setActivityType] = useState(currentAcId);
     const [notes, setNotes] = useState(currentP.notes);
-
+    
+    const [showAddLocation, setShowAddLocation] = useState(false)
+    const [showAddActivity, setShowAddActivity] = useState(false)
 
     function handleUpdate(e) {
         e.preventDefault();
         setIsLoading(true);
         fetch("/places", {
-            method: "POST",
+            method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -57,14 +67,15 @@ function UpdatePlace() {
         })
     }
 
-    const onAddNewLocation = () => {
-        setShowAddLocation(!showAddLocation)
+   // --------------------------------------------- LOCATION
+   const onAddNewLocation = () => {
+    setShowAddLocation(!showAddLocation)
     }
 
     const afterAddNewLocation = (newLocation) => {
-      dispatch({ type: "regions/addRegion", payload: newLocation })
-      setCityState(newLocation.id)
-      setShowAddLocation(false)
+        dispatch({ type: "regions/addRegion", payload: newLocation })
+        setCityState(newLocation.id)
+        setShowAddLocation(false)
     }
 
     const getLocationOptions = () => {
@@ -80,10 +91,37 @@ function UpdatePlace() {
         if (val) setCityState(val)
     }
 
+    // --------------------------------------------- ACTIVITY
+    const onAddNewActivity = () => {
+        setShowAddActivity(!showAddActivity)
+    }
+
+    const afterAddNewActivity = (newActivity) => {
+        console.log('after', newActivity)
+        dispatch({ type: "activities/addActivity", payload: newActivity })
+        setActivityType(newActivity.id)
+        setShowAddActivity(false)
+    }
+
+    const getActivityOptions = () => {
+        const options = [
+            <option key='blank' value={''}>Select an activity</option>
+        ]
+        activities.forEach(act => options.push(<option key={act.id} value={act.id}>{`${act.activity_type}`}</option>))
+        return options
+    }
+
+    const onActivitySelect = (e) => {
+        const val = e.target.value;
+        if (val) setActivityType(val)
+    }
+
     return (
         <div>
-            <form className='new-place-form' >
+
+            <form className='new-place-form' onSubmit={handleUpdate}>
             <h1 className="page-title">Edit Place</h1>
+
                 <label htmlFor="name">Name</label>
                 <input
                 type="text"
@@ -125,20 +163,22 @@ function UpdatePlace() {
                 onChange={(e) => setMapUrl(e.target.value)}
                 />
 
-                <label htmlFor="acitivity_type">Acitivity Type</label>
-                <select 
-                value={activityType} 
-                onChange={e => setActivityType(e.target.value)}
-                id="activity_type"
-                >
-                    <option value={''}>Select an activity</option>
-                    <option value={1}>Restaurants</option>
-                    <option value={2}>Shopping</option>
-                    <option value={3}>Cafés / Bites </option>
-                    <option value={4}>Site Seeing</option>
-                    <option value={5}>Entertainment / Arts</option>
-                    <option value={6}>Outdoor Recreation</option>
-                </select>
+                <div className="row">
+                    <div className="col-75">
+                        <label htmlFor="acitivity_type">Activity Type</label>
+                        <select 
+                        value={activityType} 
+                        onChange={onActivitySelect}
+                        id="activity_type"
+                        >
+                            {getActivityOptions()}
+                        </select>
+                    </div>
+                    <div className="col-25">
+                        <button onClick={onAddNewActivity} type="button" className="add-location-button">Add Activity</button>
+                    </div>
+                </div>
+                {showAddActivity && <NewActivity afterAddNewActivity={afterAddNewActivity} />}
 
                 <label htmlFor="notes">Notes</label>
                 <textarea
@@ -159,8 +199,8 @@ function UpdatePlace() {
                         <p key={err}>{err}</p>
                     ))}
                 </div>
-
             </form>
+
         </div>
     );
 }

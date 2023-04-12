@@ -9,8 +9,10 @@ import OnePlace from "./OnePlace"
 import NewPlace from "./NewPlace";
 import UpdatePlace from "./UpdatePlace"
 
-import { fetchPlaces } from "../redux/placesReducer";
 import { fetchUser } from "../redux/userReducer"
+import { fetchPlaces } from "../redux/placesReducer";
+import { fetchRegions } from "../redux/regionsReducer";
+import { fetchActivities } from "../redux/activitiesReducer";
 
 function App() {
   const { loading, user }  = useSelector(state => state.user)
@@ -27,7 +29,15 @@ function App() {
   useEffect(() => {
     if (user) dispatch(fetchPlaces())
   }, [dispatch, user])
-
+ 
+  useEffect(() => {
+    if (user) dispatch(fetchRegions())
+  }, [dispatch, user])
+  
+  useEffect(() => {
+    if (user) dispatch(fetchActivities())
+  }, [dispatch, user])
+  
   if (loading) return "Loading...";
   if (!user) return <Login />;
 

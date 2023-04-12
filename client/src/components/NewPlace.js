@@ -4,7 +4,7 @@ import { NewLocation } from "./NewLocation";
 import { NewActivity } from "./NewActivity";
 import { useDispatch, useSelector } from "react-redux";
 
-function NewPlace({}) {
+function NewPlace() {
     const { user }  = useSelector(state => state.user)
     const regions = useSelector(state => state.regions.regions)
     const activities = useSelector(state => state.activities.activities)
@@ -15,19 +15,14 @@ function NewPlace({}) {
     const dispatch = useDispatch();
     
     const [name, setName] = useState("");
+    const [cityState, setCityState] = useState("");
     const [websiteUrl, setWebsiteUrl] = useState("");
     const [mapUrl, setMapUrl] = useState("");
-    const [cityState, setCityState] = useState("");
     const [activityType, setActivityType] = useState("");
     const [notes, setNotes] = useState("");
     
     const [showAddLocation, setShowAddLocation] = useState(false)
     const [showAddActivity, setShowAddActivity] = useState(false)
-    
-    /*useEffect(() => {
-        console.log('in effect')
-        setLocations(regions)
-    }, [regions])*/
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -87,10 +82,11 @@ function NewPlace({}) {
 
     // --------------------------------------------- ACTIVITY
     const onAddNewActivity = () => {
-        setShowAddActivity(!setShowAddActivity)
+        setShowAddActivity(!showAddActivity)
     }
 
     const afterAddNewActivity = (newActivity) => {
+        console.log('after', newActivity)
         dispatch({ type: "activities/addActivity", payload: newActivity })
         setActivityType(newActivity.id)
         setShowAddActivity(false)
@@ -100,7 +96,7 @@ function NewPlace({}) {
         const options = [
             <option key='blank' value={''}>Select an activity</option>
         ]
-        activities.forEach(act => options.push(<option key={act.id} value={act.id}>{`${act.city}, ${act.state}`}</option>))
+        activities.forEach(act => options.push(<option key={act.id} value={act.id}>{`${act.activity_type}`}</option>))
         return options
     }
 
@@ -111,6 +107,7 @@ function NewPlace({}) {
 
     return (
         <div>
+
             <form className='new-place-form' onSubmit={handleSubmit}>
             <h1 className="page-title">New Place</h1>
 
@@ -175,21 +172,6 @@ function NewPlace({}) {
                 </div>
                 {showAddActivity && <NewActivity afterAddNewActivity={afterAddNewActivity} />}
 
-                {/* <label htmlFor="acitivity_type">Acitivity Type</label>
-                <select 
-                value={activityType} 
-                onChange={e => setActivityType(e.target.value)}
-                id="activity_type"
-                >
-                    <option value={''}>Select an activity</option>
-                    <option value={1}>Restaurants</option>
-                    <option value={2}>Shopping</option>
-                    <option value={3}>Cafés / Bites </option>
-                    <option value={4}>Site Seeing</option>
-                    <option value={5}>Entertainment / Arts</option>
-                    <option value={6}>Outdoor Recreation</option>
-                </select> */}
-
                 <label htmlFor="notes">Notes</label>
                 <textarea
                 type="text"
@@ -210,8 +192,8 @@ function NewPlace({}) {
                         <p key={err}>{err}</p>
                     ))}
                 </div>
-
             </form>
+
         </div>
     );
 }

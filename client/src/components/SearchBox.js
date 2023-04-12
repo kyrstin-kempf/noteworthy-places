@@ -11,19 +11,20 @@ function SearchBox() {
 
   function searchByCity(e) {
     let input = e.target.value
+    console.log(input)
     dispatch({ type: "regions/searchByCity", payload: input })
   };
 
   function filterByActivity(e) {
     let actId = e.target.value
     setActivity(actId)
-    // dispatch({ type: "places/filterByActivity", payload: actId })
+    dispatch({ type: "places/filterByActivity", payload: actId })
   }
 
   function clearFilter() {
     setActivity('')
     // setCheckedAct(null)
-    // dispatch({ type: "places/clearFilter" })
+    dispatch({ type: "places/clearFilter" })
   }
 
   // const testSearch = 'Lo'

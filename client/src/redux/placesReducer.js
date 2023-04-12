@@ -11,7 +11,6 @@ export function fetchPlaces() {
       fetch("/places")
         .then((response) => response.json())
         .then((places) => {
-            // console.log('data', data)
             dispatch({
                 type: "places/placesLoaded",
                 payload: places,
@@ -29,8 +28,15 @@ function placesReducer(state = initialState, action) {
             return { places: action.payload, loading: false };
         case "places/addNewPlace":
             return { ...state, places: [...state.places, action.payload], loading: false };
+        case "places/updatePlace":
+            let placeId = action.payload.id
+            let newPlaces = state.places.map(p => {
+                if(p.id === placeId) {
+                    return action.payload
+                } return p
+            })
+            return {...state, places: newPlaces}
         case "places/deletePlace":
-            // return { ...state, places: state.places.filter(p => p.id !== action.payload), loading: false };
             return { ...state, places: state.places.filter(p => p.id.toString() !== action.payload ) };
         case "places/filterByActivity":
             let actId = action.payload;

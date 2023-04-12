@@ -1,3 +1,5 @@
+// create and read activities
+
 const initialState = {
     places: [],
     loading: false,
@@ -27,7 +29,17 @@ function placesReducer(state = initialState, action) {
             return { places: action.payload, loading: false };
         case "places/addNewPlace":
             return { ...state, places: [...state.places, action.payload], loading: false };
-            // return { ...state, isLoggedIn: !!payload, user: payload, loading: false };
+        case "places/deletePlace":
+            // return { ...state, places: state.places.filter(p => p.id !== action.payload), loading: false };
+            return { ...state, places: state.places.filter(p => p.id.toString() !== action.payload ) };
+        case "places/filterByActivity":
+            let actId = action.payload;
+            let filteredPlaces = state.places.filter(p => {
+                return p.activity_id === (actId)
+            });
+            return { ...state, places: filteredPlaces };
+        case "places/clearFilter":
+           return { ...state, places: [...state.places] };
         default:
             return state;
     }

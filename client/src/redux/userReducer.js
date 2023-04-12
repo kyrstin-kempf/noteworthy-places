@@ -1,4 +1,8 @@
-const initialState = { isLoggedIn: false, user: null, loading: true };
+const initialState = { 
+    isLoggedIn: false, 
+    user: null, 
+    loading: true 
+};
 
 export function fetchUser() {
     return function (dispatch) {

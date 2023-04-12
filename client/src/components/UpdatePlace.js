@@ -38,7 +38,7 @@ function UpdatePlace() {
     function handleUpdate(e) {
         e.preventDefault();
         setIsLoading(true);
-        fetch("/places", {
+        fetch(`/places/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",

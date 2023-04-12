@@ -15,8 +15,8 @@ export const PlacesList = () => {
   // console.log(regionsAsc)
 
   function activityMatch(activityId) {
-    const act = activities.find(a => a.id === activityId)
-    return act.activity_type
+      const act = activities.find(a => a.id === activityId)
+      return act.activity_type
   }
 
   return (
@@ -27,7 +27,7 @@ export const PlacesList = () => {
               <h3>{r.city}, {r.state}</h3>
               {places.filter(place => place.region_id === r.id).map(p =>
                 <ul key={p.id}>
-                    <li>{p.name} | { activityMatch(p.activity_id) }
+                    <li>{p.name} | { activities.length > 0 ? activityMatch(p.activity_id) : <p>No activities found</p> }
                     <Link to={`/places/${p.id}`}>
                       <button type='button' id='details-button'>Details</button>
                     </Link> 

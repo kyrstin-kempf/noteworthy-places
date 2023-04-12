@@ -1,70 +1,196 @@
-# Getting Started with Create React App
+## CHALLENGES
+* NewPlace.js
+    * if adding a new location, place & location do not show on dom
+    * already fetched regions in App.js - regions do not appear on refresh
+* OnePlace.js
+    * if deleting a place location does not remove from dom
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
+Hold New Place content
 
-### `npm start`
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { NewLocation } from "./NewLocation";
+import { useDispatch, useSelector } from "react-redux";
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+function NewPlace() {
+    const { user }  = useSelector(state => state.user)
+    const regions = useSelector(state => state.regions.regions)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    const [name, setName] = useState("");
+    const [websiteUrl, setWebsiteUrl] = useState("");
+    const [mapUrl, setMapUrl] = useState("");
+    const [cityState, setCityState] = useState("");
+    const [activityType, setActivityType] = useState("");
+    const [notes, setNotes] = useState("");
+    
+    const [showAddLocation, setShowAddLocation] = useState(false)
+    //const [locations, setLocations] = useState(regions)
+    const [errors, setErrors] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-### `npm test`
+    /*useEffect(() => {
+        console.log('in effect')
+        setLocations(regions)
+    }, [regions])*/
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    // console.log(locations)
 
-### `npm run build`
+    // useEffect(() => {
+    //     fetch("/regions", {
+    //         method: "GET",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         }
+    //       })
+    //         .then((r) => {
+    //             if (r.ok) {
+    //                 r.json().then((locations) => {
+    //                     setLocations(locations)
+    //                 });
+    //             }
+    //         });
+    // }, [])
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    function handleSubmit(e) {
+        e.preventDefault();
+        setIsLoading(true);
+        fetch("/places", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name,
+                map_url: mapUrl,
+                website_url: websiteUrl,
+                notes,
+                user_id: user.id,
+                region_id: cityState,
+                activity_id: activityType,
+            }),
+        })
+        .then((r) => {
+            setIsLoading(false);
+            if (r.ok) {
+                r.json().then((place) => {
+                    dispatch({ type: "places/addNewPlace", payload: place })
+                })
+                navigate('/')
+            }
+            else {
+                r.json().then((err) => setErrors(err.errors));
+            }
+        })
+    }
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    const onAddNewLocation = () => {
+        setShowAddLocation(!showAddLocation)
+    }
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    const afterAddNewLocation = (newLocation) => {
+        //setLocations([...regions, newLocation])
+        dispatch({ type: "regions/addRegion", payload: newLocation })
+        setCityState(newLocation.id)
+        setShowAddLocation(false)
+    }
 
-### `npm run eject`
+    const getLocationOptions = () => {
+        const options = [
+            <option key='blank' value={''}>Select a location</option>
+        ]
+        regions.forEach(location => options.push(<option key={location.id} value={location.id}>{`${location.city}, ${location.state}`}</option>))
+        return options
+    }
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    const onCityStateSelect = (e) => {
+        const val = e.target.value;
+        if (val) setCityState(val)
+    }
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    return (
+        <div>
+            <form className='new-place-form' onSubmit={handleSubmit}>
+            <h1 className="page-title">New Place</h1>
+                <label htmlFor="name">Name</label>
+                <input
+                type="text"
+                id="name"
+                // placeholder="DAO Thai Restaurant"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                />
+                <div className="row">
+                    <div className="col-75">
+                        <label htmlFor="city">City, State / Country</label>
+                        <select 
+                        value={cityState} 
+                        onChange={onCityStateSelect}
+                        id="activity_type"
+                        >
+                            {getLocationOptions()}
+                        </select>
+                    </div>
+                    <div className="col-25">
+                        <button onClick={onAddNewLocation} type="button" className="add-location-button">Add Location</button>
+                    </div>
+                </div>
+                {showAddLocation && <NewLocation afterAddNewLocation={afterAddNewLocation} />}
+                <label htmlFor="website_url">Website URL</label>
+                <input
+                type="text"
+                id="website_url"
+                placeholder="https://dao-restaurant.de/"
+                value={websiteUrl}
+                onChange={(e) => setWebsiteUrl(e.target.value)}
+                />
+                <label htmlFor="map_url">Map URL</label>
+                <input
+                type="text"
+                id="map_url"
+                placeholder="https://goo.gl/maps/ovnXzMCpeTG3nZJx9"
+                value={mapUrl}
+                onChange={(e) => setMapUrl(e.target.value)}
+                />
+                <label htmlFor="acitivity_type">Acitivity Type</label>
+                <select 
+                value={activityType} 
+                onChange={e => setActivityType(e.target.value)}
+                id="activity_type"
+                >
+                    <option value={''}>Select an activity</option>
+                    <option value={1}>Restaurants</option>
+                    <option value={2}>Shopping</option>
+                    <option value={3}>Cafés / Bites </option>
+                    <option value={4}>Site Seeing</option>
+                    <option value={5}>Entertainment / Arts</option>
+                    <option value={6}>Outdoor Recreation</option>
+                </select>
+                <label htmlFor="notes">Notes</label>
+                <textarea
+                type="text"
+                id="notes"
+                rows="5"
+                columns="50"
+                placeholder="Best Thai food ever! The teas also have real flowers. We went twice while in Berlin."
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                />
+                <button type="submit" className="submit-button">
+                    {isLoading ? 'Loading...' : '+ Add Place'}
+                </button>
+                <div className='login-error'>
+                    {errors?.map((err) => (
+                        <p key={err}>{err}</p>
+                    ))}
+                </div>
+            </form>
+        </div>
+    );
+}
+ 
+export default NewPlace;
+ 

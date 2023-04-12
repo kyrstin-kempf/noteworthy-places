@@ -21,9 +21,12 @@ Rails.application.routes.draw do
 
   get '/regions', to: 'regions#index'
   post '/regions', to: 'regions#create'
+  delete 'regions/:id', to: 'regions#destroy'
+  patch 'regions/:id', to: 'regions#update'
 
   # resources :activities, only: [:create]
 
   get '/activities', to: 'activities#index'
+  post '/activities', to: 'activities#create'
   
 end

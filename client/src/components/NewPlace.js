@@ -71,7 +71,9 @@ function NewPlace() {
         const options = [
             <option key='blank' value={''}>Select a location</option>
         ]
-        regions.forEach(location => options.push(<option key={location.id} value={location.id}>{`${location.city}, ${location.state}`}</option>))
+        const regionsCopy = [...regions]
+        const orderR = regionsCopy.sort((a, b) => a.city > b.city ? 1 : -1)
+        orderR.forEach(location => options.push(<option key={location.id} value={location.id}>{`${location.city}, ${location.state}`}</option>))
         return options
     }
 
@@ -86,7 +88,6 @@ function NewPlace() {
     }
 
     const afterAddNewActivity = (newActivity) => {
-        console.log('after', newActivity)
         dispatch({ type: "activities/addActivity", payload: newActivity })
         setActivityType(newActivity.id)
         setShowAddActivity(false)
@@ -96,7 +97,9 @@ function NewPlace() {
         const options = [
             <option key='blank' value={''}>Select an activity</option>
         ]
-        activities.forEach(act => options.push(<option key={act.id} value={act.id}>{`${act.activity_type}`}</option>))
+        const activitiesCopy = [...activities]
+        const orderA = activitiesCopy.sort((a, b) => a.activity_type > b.activity_type ? 1 : -1)
+        orderA.forEach(act => options.push(<option key={act.id} value={act.id}>{`${act.activity_type}`}</option>))
         return options
     }
 

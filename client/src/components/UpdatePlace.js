@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NewLocation } from "./NewLocation";
 import { NewActivity } from "./NewActivity";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,23 +17,45 @@ function UpdatePlace() {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    
-// -------------------------------- EXISTING FORM VALUES
-    const currentP = places.find(p => JSON.stringify(p.id) === id)
-    const currentLo = regions.find(r => r.id === currentP.region_id)
-    const currentLoId = currentLo.id 
-    const currentAc = activities.find(a => a.id === currentP.activity_id)
-    const currentAcId = currentAc.id
 
-    const [name, setName] = useState(currentP.name);
-    const [cityState, setCityState] = useState(currentLoId);
-    const [websiteUrl, setWebsiteUrl] = useState(currentP.website_url);
-    const [mapUrl, setMapUrl] = useState(currentP.map_url);
-    const [activityType, setActivityType] = useState(currentAcId);
-    const [notes, setNotes] = useState(currentP.notes);
+    const [name, setName] = useState('');
+    const [cityState, setCityState] = useState('');
+    const [websiteUrl, setWebsiteUrl] = useState('');
+    const [mapUrl, setMapUrl] = useState('');
+    const [activityType, setActivityType] = useState('');
+    const [notes, setNotes] = useState('');
+    const [currentPlace, setCurrentPlace] = useState()
     
     const [showAddLocation, setShowAddLocation] = useState(false)
     const [showAddActivity, setShowAddActivity] = useState(false)
+    
+// -------------------------------- EXISTING FORM VALUES
+
+    useEffect(() => {
+        const currentP = places.find(p => JSON.stringify(p.id) === id);
+        if (currentP) {
+            setCurrentPlace(currentP)
+            setName(currentP.name);
+            setWebsiteUrl(currentP.website_url);
+            setMapUrl(currentP.map_url);      
+            setNotes(currentP.notes);   
+        }    
+     }, [places, id])
+
+     useEffect(() => {
+        const currentLo = regions && regions.find(r => r.id === currentPlace?.region_id);
+        const currentLoId = currentLo && currentLo.id;
+        setCityState(currentLoId);
+     }, [regions, currentPlace])
+
+     useEffect(() => {
+        const currentAc = activities.find(a => a.id === currentPlace?.activity_id);
+        const currentAcId = currentAc && currentAc.id;
+        setActivityType(currentAcId);
+     }, [activities, currentPlace])
+
+
+   
 
     function handleUpdate(e) {
         e.preventDefault();
@@ -82,7 +104,9 @@ function UpdatePlace() {
         const options = [
             <option key='blank' value={''}>Select a location</option>
         ]
-        regions.forEach(location => options.push(<option key={location.id} value={location.id}>{`${location.city}, ${location.state}`}</option>))
+        const regionsCopy = [...regions]
+        const orderR = regionsCopy.sort((a, b) => a.city > b.city ? 1 : -1)
+        orderR.forEach(location => options.push(<option key={location.id} value={location.id}>{`${location.city}, ${location.state}`}</option>))
         return options
     }
 
@@ -107,7 +131,9 @@ function UpdatePlace() {
         const options = [
             <option key='blank' value={''}>Select an activity</option>
         ]
-        activities.forEach(act => options.push(<option key={act.id} value={act.id}>{`${act.activity_type}`}</option>))
+        const activitiesCopy = [...activities]
+        const orderA = activitiesCopy.sort((a, b) => a.activity_type > b.activity_type ? 1 : -1)
+        orderA.forEach(act => options.push(<option key={act.id} value={act.id}>{`${act.activity_type}`}</option>))
         return options
     }
 

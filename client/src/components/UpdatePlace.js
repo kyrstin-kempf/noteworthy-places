@@ -81,7 +81,7 @@ function UpdatePlace() {
                 r.json().then((place) => {
                     dispatch({ type: "places/updatePlace", payload: place })
                 })
-                navigate('/')
+                navigate(-1)
             }
             else {
                 r.json().then((err) => setErrors(err.errors));

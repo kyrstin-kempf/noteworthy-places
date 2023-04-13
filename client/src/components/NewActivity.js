@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 
 export const NewActivity = ({ afterAddNewActivity }) => {
     const [activity, setActivity] = useState('');
-    const [saving, setSaving] = useState(false)
+    const [saving, setSaving] = useState(false);
+    const [errors, setErrors] = useState([]);
 
     const onSaveActivity = () => {
         setSaving(true);
@@ -19,6 +20,8 @@ export const NewActivity = ({ afterAddNewActivity }) => {
                     r.json().then((activity) => {
                         afterAddNewActivity(activity)
                     });
+                } else {
+                    r.json().then((err) => setErrors(err.errors));
                 }
             });
     }
@@ -28,6 +31,12 @@ export const NewActivity = ({ afterAddNewActivity }) => {
             <label htmlFor="activity">New Acitivity</label>
             <input type='text' value={activity} name="activity" onChange={(e) => setActivity(e.target.value.replace(/\b(\w)/g, k => k.toUpperCase()))} />
             <button onClick={onSaveActivity} type='button' disabled={saving} id='save-location-button'>Save</button>
+
+            <div className='login-error'>
+                {errors?.map((err) => (
+                    <p key={err}>{err}</p>
+                ))}
+            </div>
         </div>
     )
 }

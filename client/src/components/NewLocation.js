@@ -4,6 +4,8 @@ export const NewLocation = ({ afterAddNewLocation }) => {
     const [city, setCity] = useState('');
     const [state, setState] = useState("");
     const [saving, setSaving] = useState(false)
+    const [errors, setErrors] = useState([]);
+
 
     const onSaveLocation = () => {
         setSaving(true);
@@ -20,6 +22,8 @@ export const NewLocation = ({ afterAddNewLocation }) => {
                     r.json().then((location) => {
                         afterAddNewLocation(location)
                     });
+                } else {
+                    r.json().then((err) => setErrors(err.errors));
                 }
             });
     }
@@ -31,6 +35,12 @@ export const NewLocation = ({ afterAddNewLocation }) => {
             <label htmlFor="city">New State / Country</label>
             <input type='text' value={state} name="state" onChange={(e) => setState(e.target.value.replace(/\b(\w)/g, k => k.toUpperCase()))} />
             <button onClick={onSaveLocation} type='button' disabled={saving} id='save-location-button'>Save</button>
+
+            <div className='login-error'>
+                {errors?.map((err) => (
+                    <p key={err}>{err}</p>
+                ))}
+            </div>
         </div>
     )
 }

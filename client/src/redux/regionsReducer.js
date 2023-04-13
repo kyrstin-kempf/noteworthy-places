@@ -10,7 +10,6 @@ export function fetchRegions() {
       fetch("/regions")
         .then((response) => response.json())
         .then((regions) => {
-            // console.log('regions', regions)
             dispatch({
                 type: "regions/regionsLoaded",
                 payload: regions,
@@ -31,7 +30,7 @@ function regionsReducer(state = initialState, action) {
         case "regions/addRegion":
             return { ...state, reservedRegions: [...state.reservedRegions, action.payload] , regions: [...state.regions, action.payload] };
         case "regions/searchByCity":
-            let searchedValue = action.payload;
+            let searchedValue = action.payload.toLowerCase();
             if (searchedValue === '') {
                 return { ...state, regions: state.reservedRegions }
             } else {
@@ -40,14 +39,6 @@ function regionsReducer(state = initialState, action) {
                 });
                 return { ...state, regions: filteredCities }
             }
-
-            // // conditional payload = ''
-            // let searchedValue = action.payload;
-            // // determine if needs to be filtered -- if action.payload is '', state.regions, else, filter
-            // let filteredCities = state.regions.filter(r => {
-            //     return r.city.toLowerCase().includes(searchedValue)
-            // });
-
         default:
             return state;
     }

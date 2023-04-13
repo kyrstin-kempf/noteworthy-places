@@ -9,7 +9,8 @@ const Home = () => {
   return (
     <div>
       <div id="my-places-box">
-        <h2 className="page-title">My Places</h2>
+        <h2 className="page-title" id="my-places-title">My Places</h2>
+        <hr className="purple-line"></hr>
           { user ? <PlacesList /> : null}
         <div>
           <SearchBox />

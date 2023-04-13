@@ -6,7 +6,7 @@ Noteworthy Places allows a user to create an account and add new places that the
 
 On login, the user will see a list of their places listed by region with the option to see the place details such as the name, activity type, gps link, and website link.
 
-![](SitterRating.gif)
+![](NoteworthyPlaces.gif)
 
 ## Requirements
 

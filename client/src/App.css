@@ -8,7 +8,6 @@ body {
 
 p, h1, h2, button {
   font-family: "Lexend Deca","Helvetica Neue",Helvetica,Arial,sans-serif;
-  /* color: #8F23E4; */
 }
 
 /* ------------------------ NAVBAR */
@@ -88,12 +87,10 @@ div.nav-bar img {
 
 #my-places-box {
   margin-right: 250px;
-  /* margin-left: auto; */
   background-color: white;
   padding: 40px 40px;
   box-shadow: 2px 2px 6px rgb(202, 201, 201);
   border-radius: 2px;
-  /* width: 860px; */
 }
 
 #one-place-box {
@@ -200,8 +197,6 @@ label.filter-container {
   left: 0;
   height: 16px;
   width: 16px;
-  /* border: solid 1px rgb(196, 196, 196); */
-  /* border: solid 1px #8F23E4; */
   background-color: white;
   border: 1px solid rgb(196, 196, 196);
   border-radius: 1px;
@@ -310,7 +305,6 @@ label.filter-container {
 }
 
 #edit-place-button {
-  /* align-self: flex-end; */
   bottom: 40px;
   left: 80px;
   background-color: white;
@@ -331,8 +325,6 @@ label.filter-container {
 }
 
 #delete-place-button {
-  /* align-self: flex-end; */
-  /* float: right; */
   bottom: 40px;
   left: 80px;
   background-color: white;
@@ -384,12 +376,6 @@ label.filter-container {
   color: #000;
   font-size: 11px;
   background-color: transparent;
-}
-
-.link-err-container {
-  /* display: inline-block; */
-  /* flex-direction: row;
-  justify-content: center */
 }
 
 #map-button-null:hover {
@@ -500,6 +486,23 @@ label.filter-container {
   flex: 50%;
 }
 
+.submit-button-landing {
+  background-color: transparent;
+  border-radius: 2px;
+  color: #8F23E4;
+  border: 2px solid #8F23E4;
+  padding: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  width: 95px;
+  height: 30px;
+  margin-top: 10px;
+  margin-left: 145px;
+}
+.submit-button-landing:hover {
+  background-color: #9023e442;
+}
+
 .submit-button {
   background-color: #8F23E4;
   border-radius: 2px;
@@ -536,7 +539,6 @@ label.filter-container {
 
 #one-place-activity {
   font-size: 12px;
-  /* font-style: italic; */
   margin-top: 16px;
   margin-bottom: 26px;
 }
@@ -559,7 +561,6 @@ h3 {
 
 #my-places-title {
   padding: 0;
-  /* margin-bottom: -15px; */
   font-weight: 400;
   font-size: 18px;
 }
@@ -567,10 +568,7 @@ h3 {
 .row-home {
   width: 480px;
   display: flex;
-  /* flex: 1 1 auto; */
   margin: 0 5px;
-  /* flex-shrink: 1; */
-  /* width: min-content; */
 }
 
 .row-home p {
@@ -579,7 +577,6 @@ h3 {
 
 #clear-filter-button {
   background-color: transparent;
-  /* float: right; */
   color: #8F23E4;
   font-size: 11px;
   border: 1px solid #8F23E4;
@@ -589,9 +586,6 @@ h3 {
 }
 
 .purple-line {
-  /* width: 85%; */
-  /* margin-left: auto; */
-  /* margin-right: auto; */
   border-top: 1px solid #8F23E4;
   margin-top: 8px;
   margin-bottom: -10px;

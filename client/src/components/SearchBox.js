@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function SearchBox() {
   const [activity, setActivity] = useState('')
-  // const [checkedRadio, setCheckedAct] = useState(false)
-  // const places = useSelector(state => state.places.places)
-  // const regions = useSelector(state => state.regions.regions)
-  // const search = useSelector(state => state.regions.search)
+  const activities = useSelector(state => state.activities.activities)
   const dispatch = useDispatch();
 
   function searchByCity(e) {
     let input = e.target.value
-    console.log(input)
+    // console.log(input)
     dispatch({ type: "regions/searchByCity", payload: input })
   };
 
@@ -27,6 +24,9 @@ function SearchBox() {
     dispatch({ type: "places/clearFilter" })
   }
 
+  const activitiesCopy = [...activities]
+  const orderA = activitiesCopy.sort((a, b) => a.activity_type > b.activity_type ? 1 : -1)
+
     return (
         <div className="search-filter-form">
 
@@ -39,37 +39,15 @@ function SearchBox() {
             />
           </div>
 
-          <h2 className="search-title">Filter By Acitivity</h2>
+          <h2 className="search-title" id="filter-title">Filter By Acitivity</h2>
           <div className="filter-container-box">
-            <label className="filter-container">Cafés / Bites
-              <input type="radio" name="activity" value='3' checked={activity === '3'} onChange={filterByActivity}/>
-              <span className="checkmark"></span>
-            </label>
+            {orderA.map(a => {
+              return <label className="filter-container" key={a.id}>{a.activity_type}
+                      <input type="radio" name="activity" value={a.id} checked={activity === JSON.stringify(a.id)} onChange={filterByActivity}/>
+                      <span className="checkmark"></span>
+                    </label>
+            })}
 
-            <label className="filter-container">Restaurants
-              <input type="radio" name="activity" value='1' checked={activity === '1'} onChange={filterByActivity}/>
-              <span className="checkmark"></span>
-            </label>
-
-            <label className="filter-container">Shopping
-              <input type="radio" name="activity" value='2' checked={activity === '2'} onChange={filterByActivity}/>
-              <span className="checkmark"></span>
-            </label>
-
-            <label className="filter-container">Site Seeing
-              <input type="radio" name="activity" value='4' checked={activity === '4'} onChange={filterByActivity}/>
-              <span className="checkmark"></span>
-            </label>
-
-            <label className="filter-container">Entertainment / Arts
-              <input type="radio" name="activity" value='5' checked={activity === '5'} onChange={filterByActivity}/>
-              <span className="checkmark"></span>
-            </label>
-
-            <label className="filter-container">Outdoor Recreation
-              <input type="radio" name="activity" value='6' checked={activity === '6'} onChange={filterByActivity}/>
-              <span className="checkmark"></span>
-            </label>
             <button id="clear-filter-button" type="button" onClick={clearFilter}>Clear</button>
           </div>
 

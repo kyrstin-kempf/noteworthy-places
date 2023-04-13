@@ -33,7 +33,7 @@ function OnePlace() {
     if (validator.isURL(url)) {
       return <a href={url} className='one-place-button' id='website-button' target="_blank" rel="noopener noreferrer">Website</a> 
     } else {
-      return <button className='one-place-button' id='website-button' onClick={handleWebError}>Website</button> 
+      return <button className='one-place-button' id='website-button-null' onClick={handleWebError}>Website</button> 
     }
   }
 
@@ -41,7 +41,7 @@ function OnePlace() {
     if (validator.isURL(url)) {
       return <a href={url} className='one-place-button' id='map-button' target="_blank" rel="noopener noreferrer">Directions</a> 
     } else {
-      return <button className='one-place-button' id='map-button' onClick={handleMapError}>Directions</button> 
+      return <button className='one-place-button' id='map-button-null' onClick={handleMapError}>Directions</button> 
     }
   }
 
@@ -70,9 +70,11 @@ function OnePlace() {
               <h3 id='one-place-location'>{thisRegion.city}, {thisRegion.state}</h3>   
               <p id='one-place-activity'>• { activityMatch(thisPlace.activity_id) } •</p>
               { validateWebsite(thisPlace.website_url) }
-              { webErrorShown && (<p>Add valid website link</p>) }
               { validateMap(thisPlace.map_url) }
-              { mapErrorShown && (<p>Add valid map link</p>) }
+              <div className='link-err-container'>
+                { webErrorShown && (<p id='web-err-mess'>Add valid website link</p>) }
+                { mapErrorShown && (<p id='map-err-mess'>Add valid map link</p>) }
+              </div>
               <h3 id='notes-title'>Notes</h3>
               <p id='notes-content'>{thisPlace.notes}</p>
             </div>

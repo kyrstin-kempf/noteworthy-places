@@ -360,10 +360,56 @@ label.filter-container {
   color: #000;
 }
 
+#website-button-null {
+  margin-right: 15px;
+  border: 1px solid rgb(196, 196, 196);
+  color: #000;
+  font-size: 11px;
+  background-color: transparent;
+}
+
+#website-button-null:hover {
+  background-color: #9023e442;
+}
+
 #map-button {
   margin-left: 18px;
   border: 1px solid rgb(196, 196, 196);
   color: #000;
+}
+
+#map-button-null {
+  margin-left: 18px;
+  border: 1px solid rgb(196, 196, 196);
+  color: #000;
+  font-size: 11px;
+  background-color: transparent;
+}
+
+.link-err-container {
+  /* display: inline-block; */
+  /* flex-direction: row;
+  justify-content: center */
+}
+
+#map-button-null:hover {
+  background-color: #9023e442;
+}
+
+#web-err-mess {
+  position: absolute;
+  width: 110px;
+  bottom: 152px;
+  left: 73px;
+  color: #ad1616;
+}
+
+#map-err-mess {
+  position: absolute;
+  width: 110px;
+  bottom: 152px;
+  right: 74px;
+  color: #ad1616;
 }
 
 .edit-delete {
@@ -374,7 +420,7 @@ label.filter-container {
   text-align: left;
   margin-left: 55px;
   margin-bottom: 0px;
-  margin-top: 25px;
+  margin-top: 30px;
   font-weight: 400;
 }
 

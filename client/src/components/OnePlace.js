@@ -1,21 +1,49 @@
-// import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import { useParams} from "react-router-dom";
 import bookmark from '../assets/bookmark.png';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
+import validator from 'validator';
+
 
 function OnePlace() {
   const regions = useSelector(state => state.regions.regions)
   const places = useSelector(state => state.places.places)
   const activities = useSelector(state => state.activities.activities)
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [webErrorShown, setWebErrShown] = useState(false);
+  const [mapErrorShown, setMapErrShown] = useState(false);
 
   const thisPlace = places.find(p => JSON.stringify(p.id) === id )
   const thisRegion = thisPlace && regions.find(r => r.id === thisPlace.region_id)
+
+  const handleWebError = () => {
+    setWebErrShown(!webErrorShown)
+  }
+
+  const handleMapError = () => {
+    setMapErrShown(!mapErrorShown)
+  }
+
+  function validateWebsite(url) {
+    if (validator.isURL(url)) {
+      return <a href={url} className='one-place-button' id='website-button' target="_blank" rel="noopener noreferrer">Website</a> 
+    } else {
+      return <button className='one-place-button' id='website-button' onClick={handleWebError}>Website</button> 
+    }
+  }
+
+  function validateMap(url) {
+    if (validator.isURL(url)) {
+      return <a href={url} className='one-place-button' id='map-button' target="_blank" rel="noopener noreferrer">Directions</a> 
+    } else {
+      return <button className='one-place-button' id='map-button' onClick={handleMapError}>Directions</button> 
+    }
+  }
 
   const handleDelete = () => {
     fetch(`/places/${id}`, {
@@ -41,12 +69,13 @@ function OnePlace() {
               <hr className='line'></hr>
               <h3 id='one-place-location'>{thisRegion.city}, {thisRegion.state}</h3>   
               <p id='one-place-activity'>• { activityMatch(thisPlace.activity_id) } •</p>
-              <a href={thisPlace.website_url} className='one-place-button' id='website-button' target="_blank" rel="noopener noreferrer">Website</a>  
-              <a href={thisPlace.map_url} className='one-place-button' id='map-button' target="_blank" rel="noopener noreferrer">Directions</a>  
+              { validateWebsite(thisPlace.website_url) }
+              { webErrorShown && (<p>Add valid website link</p>) }
+              { validateMap(thisPlace.map_url) }
+              { mapErrorShown && (<p>Add valid map link</p>) }
               <h3 id='notes-title'>Notes</h3>
               <p id='notes-content'>{thisPlace.notes}</p>
             </div>
-
             <div className='edit-delete'>
               <Link to={`/places/${id}/edit`}>
                 <button type='button' id='edit-place-button'>Edit Place</button>

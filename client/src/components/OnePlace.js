@@ -6,9 +6,6 @@ import bookmark from '../assets/bookmark.png';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 
-// state or props
-//
-
 function OnePlace() {
   const regions = useSelector(state => state.regions.regions)
   const places = useSelector(state => state.places.places)
@@ -16,7 +13,6 @@ function OnePlace() {
   const { id } = useParams();
   const navigate = useNavigate()
   const dispatch = useDispatch();
-
 
   const thisPlace = places.find(p => JSON.stringify(p.id) === id )
   const thisRegion = thisPlace && regions.find(r => r.id === thisPlace.region_id)
@@ -31,12 +27,9 @@ function OnePlace() {
 
   function activityMatch(activityId) {
     const act = activities.find(a => a.id === activityId)
-    return act && act.activity_type // act?.activity_type
+    return act && act.activity_type
   }
 
-  //truthy true, 1, [], {}, "  "
-  //falsey false, 0, null, undefined, ""
-  
     return (
       <div>
         {regions.length > 0 && thisPlace ? (

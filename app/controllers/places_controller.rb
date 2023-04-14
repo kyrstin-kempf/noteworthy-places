@@ -4,6 +4,10 @@ class PlacesController < ApplicationController
     user = User.find_by(id: session[:user_id])
     places = user.places.order('LOWER(name)') 
     render json: places
+
+    # user = User.find_by(id: session[:user_id])
+    # places = user.places.order('LOWER(name)')
+    # render json: group_places(places)
   end
 
   def show
@@ -37,5 +41,14 @@ class PlacesController < ApplicationController
   def place_params 
     params.permit(:name, :map_url, :website_url, :notes, :user_id, :region_id, :activity_id)
   end
+
+  # def group_places(places)
+  #   groups = places.each_with_object({}) do |place, hsh|
+  #     key = "#{place.region.city}, #{place.region.state}"
+  #     hsh[key] = { id: place.region.id, city: place.region.city, state: place.region.state, places: [], activity: place.activity, user: place.user } if !hsh.key?(key)
+  #     hsh[key][:places] << place
+  #   end
+  #   groups.values
+  # end
  
 end

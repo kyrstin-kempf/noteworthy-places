@@ -44,20 +44,6 @@ function UpdatePlace() {
         }    
      }, [places, id])
 
-    //  useEffect(() => {
-    //     // const currentLo = regions && regions.find(r => r.id === currentPlace?.region_id);
-    //     const currentLoId = currentLo && currentLo.id;
-    //     setCityState(currentLoId);
-    //  }, [regions, currentPlace])
-
-    //  useEffect(() => {
-    //     const currentAc = activities.find(a => a.id === currentPlace?.activity_id);
-    //     const currentAcId = currentAc && currentAc.id;
-    //     setActivityType(currentAcId);
-    //  }, [activities, currentPlace])
-
-
-   
 
     function handleUpdate(e) {
         e.preventDefault();

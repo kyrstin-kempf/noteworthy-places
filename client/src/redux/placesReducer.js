@@ -37,9 +37,19 @@ function placesReducer(state = initialState, action) {
             return {...state, reservedPlaces: newPlaces, places: newPlaces }
         case "places/deletePlace":
             return { ...state, places: state.places.filter(p => p.id.toString() !== action.payload), reservedPlaces: state.reservedPlaces.filter(p => p.id.toString() !== action.payload) };
+        case "places/searchByCity":
+            let searchedValue = action.payload.toLowerCase();
+            if (searchedValue === '') {
+                return { ...state, places: state.reservedPlaces }
+            } else {
+                    let filteredCities = state.places.filter(p => {
+                    return p.region.city.toLowerCase().includes(searchedValue)
+                });
+                return { ...state, places: filteredCities }
+            }
         case "places/filterByActivity":
             let actId = action.payload;
-            let filteredPlaces = state.places.filter(p => p.activity_id.toString() === actId);
+            let filteredPlaces = state.places.filter(p => p.activity.id.toString() === actId);
             return { ...state, places: filteredPlaces }
         case "places/clearFilter":
            return { ...state, places: state.reservedPlaces };

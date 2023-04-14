@@ -29,16 +29,6 @@ function regionsReducer(state = initialState, action) {
             return { reservedRegions: action.payload, regions: action.payload, loading: false };
         case "regions/addRegion":
             return { ...state, reservedRegions: [...state.reservedRegions, action.payload] , regions: [...state.regions, action.payload] };
-        case "regions/searchByCity":
-            let searchedValue = action.payload.toLowerCase();
-            if (searchedValue === '') {
-                return { ...state, regions: state.reservedRegions }
-            } else {
-                    let filteredCities = state.regions.filter(r => {
-                    return r.city.toLowerCase().includes(searchedValue)
-                });
-                return { ...state, regions: filteredCities }
-            }
         default:
             return state;
     }

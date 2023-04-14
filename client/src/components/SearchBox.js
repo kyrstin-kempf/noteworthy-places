@@ -9,7 +9,7 @@ function SearchBox() {
   function searchByCity(e) {
     let input = e.target.value
     // console.log(input)
-    dispatch({ type: "regions/searchByCity", payload: input })
+    dispatch({ type: "places/searchByCity", payload: input })
   };
 
   function filterByActivity(e) {

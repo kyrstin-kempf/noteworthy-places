@@ -19,10 +19,6 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    document.title = 'Noteworthy Places';
-  }, []);
-
-  useEffect(() => {
     dispatch(fetchUser())
   }, [dispatch])
 

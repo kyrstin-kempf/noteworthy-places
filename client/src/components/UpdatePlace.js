@@ -38,21 +38,23 @@ function UpdatePlace() {
             setName(currentP.name);
             setWebsiteUrl(currentP.website_url);
             setMapUrl(currentP.map_url);      
-            setNotes(currentP.notes);   
+            setNotes(currentP.notes);
+            setCityState(currentP.region.id);
+            setActivityType(currentP.activity.id);
         }    
      }, [places, id])
 
-     useEffect(() => {
-        const currentLo = regions && regions.find(r => r.id === currentPlace?.region_id);
-        const currentLoId = currentLo && currentLo.id;
-        setCityState(currentLoId);
-     }, [regions, currentPlace])
+    //  useEffect(() => {
+    //     // const currentLo = regions && regions.find(r => r.id === currentPlace?.region_id);
+    //     const currentLoId = currentLo && currentLo.id;
+    //     setCityState(currentLoId);
+    //  }, [regions, currentPlace])
 
-     useEffect(() => {
-        const currentAc = activities.find(a => a.id === currentPlace?.activity_id);
-        const currentAcId = currentAc && currentAc.id;
-        setActivityType(currentAcId);
-     }, [activities, currentPlace])
+    //  useEffect(() => {
+    //     const currentAc = activities.find(a => a.id === currentPlace?.activity_id);
+    //     const currentAcId = currentAc && currentAc.id;
+    //     setActivityType(currentAcId);
+    //  }, [activities, currentPlace])
 
 
    

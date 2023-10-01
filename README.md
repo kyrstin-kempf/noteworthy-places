@@ -22,5 +22,3 @@ To run this application, make sure the following is installed:
 3. Run `rails db:migrate`
 4. Run `rails s` to start the backend on [http://localhost:3000](http://localhost:3000)
 5. In another terminal, navigate to client directory `cd client`, then run `npm start` to start the frontend on [http://localhost:4000](http://localhost:4000).
-
-To view Noteworthy Places without forking and cloning, visit [https://noteworthy-places.com](https://noteworthy-places.onrender.com)
